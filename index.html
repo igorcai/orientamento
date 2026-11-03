@@ -432,27 +432,32 @@
             'info': {
                 title: 'Informatica e Telecomunicazioni',
                 tag: 'Istituto Tecnico • AI Integrata',
-                desc: 'Un percorso all\'avanguardia focalizzato sullo sviluppo software, l\'intelligenza artificiale integrata nella didattica, le reti di calcolatori e la cybersecurity. Impara a programmare in C, Python e a gestire infrastrutture cloud avanzate.'
+                desc: 'Un percorso all\'avanguardia focalizzato sullo sviluppo software, l\'intelligenza artificiale integrata nella didattica, le reti di calcolatori e la cybersecurity. Impara a programmare in C, Python e a gestire infrastrutture cloud avanzate.',
+                link: 'https://iisbadoni.edu.it/indirizzo-di-studio/informatica-telecomunicazioni/'
             },
             'logistica': {
                 title: 'Logistica',
                 tag: 'Istituto Tecnico',
                 desc: 'Specializzati nella gestione della catena di fornitura globale (supply chain), nell\'automazione dei magazzini 4.0, nella mobilità sostenibile e nei sistemi integrati di trasporto intermodale.'
+                // Nessun link per logistica
             },
             'meccanica': {
                 title: 'Meccanica e Meccatronica',
                 tag: 'Istituto Tecnico',
-                desc: 'Unione perfetta tra progettazione meccanica 3D CAD/CAM, robotica industriale, automazione e studio dei materiali innovativi. Per chi vuole dare forma concreta alla tecnologia.'
+                desc: 'Unione perfetta tra progettazione meccanica 3D CAD/CAM, robotica industriale, automazione e studio dei materiali innovativi. Per chi vuole dare forma concreta alla tecnologia.',
+                link: 'https://iisbadoni.edu.it/indirizzo-di-studio/meccanica-meccatronica-energia/'
             },
             'elettronica': {
                 title: 'Elettronica ed Elettrotecnica',
                 tag: 'Istituto Tecnico',
-                desc: 'Studio dei microcontrollori, dei sistemi embedded, dell\'IoT (Internet of Things) e degli impianti tecnologici avanzati per la transizione energetica e l\'automazione intelligente.'
+                desc: 'Studio dei microcontrollori, dei sistemi embedded, dell\'IoT (Internet of Things) e degli impianti tecnologici avanzati per la transizione energetica e l\'automazione intelligente.',
+                link: 'https://iisbadoni.edu.it/indirizzo-di-studio/elettronica-elettrotecnica-automazione/'
             },
             'liceo': {
                 title: 'Liceo Scientifico - Opzione Scienze Applicate',
                 tag: 'Liceo Scientifico',
-                desc: 'La rigorosa preparazione scientifica del liceo unita all\'informatica laboratoriale avanzata (senza lo studio del latino). Matematica, Fisica, Scienze e Informatica al servizio delle future facoltà universitarie STEM.'
+                desc: 'La rigorosa preparazione scientifica del liceo unita all\'informatica laboratoriale avanzata (senza lo studio del latino). Matematica, Fisica, Scienze e Informatica al servizio delle future facoltà universitarie STEM.',
+                link: 'https://iisbadoni.edu.it/indirizzo-di-studio/liceo-scientifico-scienze-applicate/'
             }
         };
 
@@ -463,7 +468,13 @@
             const content = `
                 <span class="text-xs font-bold uppercase tracking-wider text-badoni-primary bg-sky-100 px-3 py-1 rounded-full">${course.tag}</span>
                 <h3 class="text-2xl font-bold text-badoni-primary mt-2">${course.title}</h3>
-                <p class="text-slate-600 text-sm leading-relaxed mt-4">${course.desc}</p>
+                <p class="text-slate-600 text-sm leading-relaxed mt-4 mb-2">${course.desc}</p>
+                
+                ${course.link ? `
+                <a href="${course.link}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center mt-2 text-sm font-bold text-[#0066CC] hover:text-badoni-primary transition-colors">
+                    <i class="fa-solid fa-arrow-up-right-from-square mr-2"></i> Vai ai dettagli e quadro orario sul sito
+                </a>` : ''}
+
                 <div class="mt-6 pt-4 border-t border-slate-100 flex justify-end">
                     <button onclick="closeModal()" class="px-5 py-2 bg-badoni-primary text-white rounded-xl font-semibold text-sm hover:bg-opacity-90 transition-all">Chiudi</button>
                 </div>
