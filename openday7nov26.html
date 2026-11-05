@@ -26,6 +26,13 @@
 </head>
 <body class="bg-badoni-dark text-slate-100 min-h-screen font-sans flex flex-col items-center">
 
+  <!-- Form Nascosto + Iframe Target per invio a Google Form senza CORS issue -->
+  <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+  <form id="gform" action="https://docs.google.com/forms/d/e/1FAIpQLSdYufVJ1qOjs0Cm62kvNssmnWfZB3NjHw9WmLrt_YE1JJ4Ayw/formResponse" method="POST" target="hidden_iframe" class="hidden">
+    <input type="text" name="entry.944306534" id="field_quiz">
+    <input type="text" name="entry.1090735610" id="field_feedback">
+  </form>
+
   <!-- Header con Logo -->
   <header class="w-full max-w-md bg-badoni-navy/90 backdrop-blur border-b border-badoni-accent/30 p-4 sticky top-0 z-50 flex items-center justify-between">
     <div class="flex items-center space-x-3">
@@ -39,7 +46,7 @@
 
   <main class="w-full max-w-md p-4 space-y-6 pb-12">
 
-    <!-- Sezione Scarica Piantina (Ora con anteprima cliccabile) -->
+    <!-- Sezione Scarica Piantina (Anteprima cliccabile) -->
     <section class="bg-badoni-navy/60 border border-badoni-accent/20 rounded-2xl p-5 text-center shadow-lg">
       <div class="w-12 h-12 bg-badoni-accent/10 rounded-full flex items-center justify-center mx-auto mb-3 text-badoni-accent">
         <i class="fa-solid fa-map-location-dot text-2xl"></i>
@@ -47,9 +54,8 @@
       <h2 class="text-xl font-bold text-white mb-2">Piantina della Scuola</h2>
       <p class="text-slate-300 text-sm mb-4">Tocca l'immagine per ingrandirla o scarica il PDF.</p>
       
-      <!-- Anteprima Piantina (cliccabile per ingrandire) -->
+      <!-- Anteprima Piantina -->
       <div class="mb-4 overflow-hidden rounded-xl border border-badoni-accent/30 cursor-pointer hover:border-badoni-accent transition-colors" onclick="openMapModal()">
-        <!-- Sostituisci piantina.png con l'immagine della tua mappa -->
         <img src="pianteopenday.jpg" alt="Anteprima Piantina" class="w-full h-auto object-cover" onerror="this.src='https://via.placeholder.com/600x400?text=Anteprima+Piantina'">
         <div class="bg-badoni-navy py-2 text-xs text-badoni-accent flex justify-center items-center space-x-2">
           <i class="fa-solid fa-magnifying-glass-plus"></i>
@@ -57,7 +63,6 @@
         </div>
       </div>
 
-      <!-- Sostituire l'URL sottostante con il link del tuo PDF su Google Drive -->
       <a href="pianteopendaypdf.pdf" target="_blank" class="inline-flex items-center justify-center space-x-2 bg-badoni-accent text-badoni-dark font-bold px-6 py-3 rounded-xl hover:bg-cyan-300 transition-all w-full shadow-md shadow-cyan-500/20">
         <i class="fa-solid fa-file-pdf"></i>
         <span>Scarica Piantina PDF</span>
@@ -139,16 +144,10 @@
     <div class="w-full max-w-2xl flex justify-end mb-2">
       <button class="text-white hover:text-badoni-accent text-4xl">&times;</button>
     </div>
-    <!-- Anche qui sostituisci piantina.png con l'immagine della tua mappa -->
     <img src="pianteopenday.jpg" alt="Piantina Ingrandita" class="w-full max-h-[85vh] object-contain rounded-lg shadow-2xl" onerror="this.src='https://via.placeholder.com/600x400?text=Anteprima+Piantina'" onclick="event.stopPropagation()">
   </div>
 
   <script>
-    // Configurazione invio Google Form
-    const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdYufVJ1qOjs0Cm62kvNssmnWfZB3NjHw9WmLrt_YE1JJ4Ayw/formResponse";
-    const ENTRY_QUIZ = "entry.944306534";
-    const ENTRY_FEEDBACK = "entry.1090735610";
-
     const scores = { info: 0, mec: 0, ele: 0, liceo: 0, log: 0 };
 
     function answer(step, key) {
@@ -185,8 +184,10 @@
       icon.className = `fa-solid ${resultsData[best].icon}`;
       resContainer.classList.remove('hidden');
 
-      // Invio al Form con il nome corretto della funzione e del campo name
-      sendToGoogleForm(ENTRY_QUIZ, resultsData[best].name);
+      // Invio tramite FORM invisibile
+      document.getElementById('field_quiz').value = resultsData[best].name;
+      document.getElementById('field_feedback').value = ""; // Svuota l'altro campo
+      document.getElementById('gform').submit();
     }
 
     function sendFeedback(type) {
@@ -199,19 +200,10 @@
         down: "👎 Pollice Giù"
       };
 
-      // Invio al Form con il nome corretto della funzione
-      sendToGoogleForm(ENTRY_FEEDBACK, emojiMap[type]);
-    }
-
-    function sendToGoogleForm(entryField, value) {
-      const formData = new FormData();
-      formData.append(entryField, value);
-
-      fetch(FORM_URL, {
-        method: "POST",
-        mode: "no-cors",
-        body: formData
-      }).catch(err => console.log("Invio completato"));
+      // Invio tramite FORM invisibile
+      document.getElementById('field_quiz').value = ""; // Svuota l'altro campo
+      document.getElementById('field_feedback').value = emojiMap[type];
+      document.getElementById('gform').submit();
     }
 
     function resetQuiz() {
