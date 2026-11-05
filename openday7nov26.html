@@ -173,20 +173,20 @@
       const icon = document.getElementById('res-icon');
 
       const resultsData = {
-        info: { title: "Informatica e Telecomunicazioni", desc: "Il tuo profilo è orientato al codice, al software e alle reti. Visita il laboratorio di Informatica e l'Aula di Presentazione riservata!", icon: "fa-code" },
-        mec: { title: "Meccanica, Meccatronica ed Energia", desc: "Hai una forte propensione per la progettazione 3D e i sistemi meccanici. Passa dai laboratori di Meccanica!", icon: "fa-gears" },
-        ele: { title: "Elettronica ed Elettrotecnica", desc: "Il tuo forte sono i circuiti, l'automazione e i sistemi di controllo robotizzati. Visita i laboratori dedicati!", icon: "fa-bolt" },
-        liceo: { title: "Liceo Scientifico - Scienze Applicate", desc: "Hai un'attitudine teorico-scientifica bilanciata tra matematica, fisica e informatica. Scopri l'aula del Liceo!", icon: "fa-atom" },
-        log: { title: "Logistica e Trasporti", desc: "Ti affascina l'organizzazione dei flussi di merci e la gestione della supply chain globale!", icon: "fa-truck-fast" }
+        info: { name: "Informatica e Telecomunicazioni", desc: "Il tuo profilo è orientato al codice, al software e alle reti. Visita il laboratorio di Informatica e l'Aula di Presentazione riservata!", icon: "fa-code" },
+        mec: { name: "Meccanica, Meccatronica ed Energia", desc: "Hai una forte propensione per la progettazione 3D e i sistemi meccanici. Passa dai laboratori di Meccanica!", icon: "fa-gears" },
+        ele: { name: "Elettronica ed Elettrotecnica", desc: "Il tuo forte sono i circuiti, l'automazione e i sistemi di controllo robotizzati. Visita i laboratori dedicati!", icon: "fa-bolt" },
+        liceo: { name: "Liceo Scientifico - Scienze Applicate", desc: "Hai un'attitudine teorico-scientifica bilanciata tra matematica, fisica e informatica. Scopri l'aula del Liceo!", icon: "fa-atom" },
+        log: { name: "Logistica e Trasporti", desc: "Ti affascina l'organizzazione dei flussi di merci e la gestione della supply chain globale!", icon: "fa-truck-fast" }
       };
 
-      title.innerText = resultsData[best].title;
+      title.innerText = resultsData[best].name;
       desc.innerText = resultsData[best].desc;
       icon.className = `fa-solid ${resultsData[best].icon}`;
       resContainer.classList.remove('hidden');
 
-      // Invio automatico risultato quiz
-      sendToForm(ENTRY_QUIZ, resultsData[best].title);
+      // Invio al Form con il nome corretto della funzione e del campo name
+      sendToGoogleForm(ENTRY_QUIZ, resultsData[best].name);
     }
 
     function sendFeedback(type) {
@@ -199,11 +199,11 @@
         down: "👎 Pollice Giù"
       };
 
-      // Invio automatico feedback emoji
-      sendToForm(ENTRY_FEEDBACK, emojiMap[type]);
+      // Invio al Form con il nome corretto della funzione
+      sendToGoogleForm(ENTRY_FEEDBACK, emojiMap[type]);
     }
 
-    function sendToForm(entryField, value) {
+    function sendToGoogleForm(entryField, value) {
       const formData = new FormData();
       formData.append(entryField, value);
 
@@ -223,7 +223,6 @@
       });
     }
 
-    // Funzioni per la modale della piantina
     function openMapModal() {
       document.getElementById('map-modal').classList.remove('hidden');
       document.getElementById('map-modal').classList.add('flex');
