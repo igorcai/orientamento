@@ -427,35 +427,41 @@
     </footer>
   <!-- JAVASCRIPT PER INTERATTIVITÀ E MODALI -->
     <script>
-        const courseDetails = {
+ const courseDetails = {
             'info': {
                 title: 'Informatica e Telecomunicazioni',
                 tag: 'Istituto Tecnico • AI Integrata',
                 desc: 'Un percorso all\'avanguardia focalizzato sullo sviluppo software, l\'intelligenza artificiale integrata nella didattica, le reti di calcolatori e la cybersecurity. Impara a programmare in C, Python e a gestire infrastrutture cloud avanzate.',
-                link: 'https://iisbadoni.edu.it/indirizzo-di-studio/informatica-telecomunicazioni/'
+                link: 'https://iisbadoni.edu.it/indirizzo-di-studio/informatica-telecomunicazioni/',
+                outcomes: ['Sviluppatore Software', 'Esperto Cybersecurity', 'Sistemista di Reti', 'Università (Ingegneria/Informatica)']
             },
             'logistica': {
                 title: 'Logistica',
                 tag: 'Istituto Tecnico',
-                desc: 'Specializzati nella gestione della catena di fornitura globale (supply chain), nell\'automazione dei magazzini 4.0, nella mobilità sostenibile e nei sistemi integrati di trasporto intermodale.'
+                desc: 'Specializzati nella gestione della catena di fornitura globale (supply chain), nell\'automazione dei magazzini 4.0, nella mobilità sostenibile e nei sistemi integrati di trasporto intermodale.',
+                link: '',
+                outcomes: ['Responsabile Supply Chain', 'Manager dei Trasporti', 'Tecnico Automazione Magazzini', 'ITS o Ingegneria Gestionale']
             },
             'meccanica': {
                 title: 'Meccanica e Meccatronica',
                 tag: 'Istituto Tecnico',
                 desc: 'Unione perfetta tra progettazione meccanica 3D CAD/CAM, robotica industriale, automazione e studio dei materiali innovativi. Per chi vuole dare forma concreta alla tecnologia.',
-                link: 'https://iisbadoni.edu.it/indirizzo-di-studio/meccanica-meccatronica-energia/'
+                link: 'https://iisbadoni.edu.it/indirizzo-di-studio/meccanica-meccatronica-energia/',
+                outcomes: ['Progettista CAD/CAM', 'Tecnico Robotica e Automazione', 'Disegnatore Industriale', 'Ingegneria Meccanica']
             },
             'elettronica': {
                 title: 'Elettronica ed Elettrotecnica',
                 tag: 'Istituto Tecnico',
                 desc: 'Studio dei microcontrollori, dei sistemi embedded, dell\'IoT (Internet of Things) e degli impianti tecnologici avanzati per la transizione energetica e l\'automazione intelligente.',
-                link: 'https://iisbadoni.edu.it/indirizzo-di-studio/elettronica-elettrotecnica-automazione/'
+                link: 'https://iisbadoni.edu.it/indirizzo-di-studio/elettronica-elettrotecnica-automazione/',
+                outcomes: ['Sviluppatore Sistemi IoT', 'Progettista Circuiti', 'Tecnico Impianti Domotici', 'Ingegneria Elettronica']
             },
             'liceo': {
                 title: 'Liceo Scientifico - Opzione Scienze Applicate',
                 tag: 'Liceo Scientifico',
                 desc: 'La rigorosa preparazione scientifica del liceo unita all\'informatica laboratoriale avanzata (senza lo studio del latino). Matematica, Fisica, Scienze e Informatica al servizio delle future facoltà universitarie STEM.',
-                link: 'https://iisbadoni.edu.it/indirizzo-di-studio/liceo-scientifico-scienze-applicate/'
+                link: 'https://iisbadoni.edu.it/indirizzo-di-studio/liceo-scientifico-scienze-applicate/',
+                outcomes: ['Facoltà STEM (Ingegneria, Fisica...)', 'Medicina e Prof. Sanitarie', 'Ricerca Scientifica', 'Scienze Informatiche']
             }
         };
 
@@ -463,15 +469,29 @@
             const course = courseDetails[id];
             if (!course) return;
             
+            // Genera dinamicamente le "caselline" degli sbocchi professionali
+            const outcomesHTML = course.outcomes ? `
+                <div class="mt-5">
+                    <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Sbocchi principali:</p>
+                    <div class="flex flex-wrap gap-2">
+                        ${course.outcomes.map(out => `<span class="bg-slate-50 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm">${out}</span>`).join('')}
+                    </div>
+                </div>
+            ` : '';
+
             const content = `
                 <span class="text-xs font-bold uppercase tracking-wider text-badoni-primary bg-sky-100 px-3 py-1 rounded-full">${course.tag}</span>
                 <h3 class="text-2xl font-bold text-badoni-primary mt-2">${course.title}</h3>
                 <p class="text-slate-600 text-sm leading-relaxed mt-4 mb-2">${course.desc}</p>
                 
+                ${outcomesHTML}
+                
                 ${course.link ? `
-                <a href="${course.link}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center mt-2 text-sm font-bold text-[#0066CC] hover:text-badoni-primary transition-colors">
-                    <i class="fa-solid fa-arrow-up-right-from-square mr-2"></i> Vai ai dettagli e quadro orario sul sito
-                </a>` : ''}
+                <div class="mt-5">
+                    <a href="${course.link}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-sm font-bold text-[#0066CC] hover:text-badoni-primary transition-colors">
+                        <i class="fa-solid fa-arrow-up-right-from-square mr-2"></i> Vai ai dettagli e quadro orario sul sito
+                    </a>
+                </div>` : ''}
 
                 <div class="mt-6 pt-4 border-t border-slate-100 flex justify-end">
                     <button onclick="closeModal()" class="px-5 py-2 bg-badoni-primary text-white rounded-xl font-semibold text-sm hover:bg-opacity-90 transition-all">Chiudi</button>
