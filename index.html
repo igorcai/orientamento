@@ -425,120 +425,72 @@
             </div>
         </div>
     </footer>
+<script>
+// ==========================================
+// 1. OGGETTO CON I DETTAGLI DEGLI INDIRIZZI
+// ==========================================
+const dettagliIndirizzi = {
+    'liceo': {
+        titolo: 'Liceo Scientifico delle Scienze Applicate',
+        testo: 'Fornisce competenze avanzate negli studi scientifico-tecnologici, con particolare riferimento a scienze matematiche, fisiche, chimiche, biologiche e all\'informatica. Non prevede lo studio del latino.'
+    },
+    'informatica': {
+        titolo: 'Informatica e Telecomunicazioni',
+        testo: 'Indirizzo tecnico focalizzato sull\'analisi, progettazione, installazione e gestione di sistemi informatici, basi di dati, reti di sistemi di elaborazione e apparati di trasmissione.'
+    },
+    'elettronica': {
+        titolo: 'Elettronica, Elettrotecnica e Automazione',
+        testo: 'Si concentra sullo studio, la progettazione e la realizzazione di sistemi elettrici ed elettronici complessi, impianti di automazione industriale e controllo di processo.'
+    },
+    'meccanica': {
+        titolo: 'Meccanica, Meccatronica ed Energia',
+        testo: 'Approfondisce la progettazione e costruzione di sistemi meccanici ed elettromeccanici, l\'automazione industriale (meccatronica) e la gestione delle fonti energetiche.'
+    }
+};
 
-    <!-- JAVASCRIPT PER INTERATTIVITÀ -->
-    <script>
-        const courseDetails = {
-            'info': {
-                title: 'Informatica e Telecomunicazioni',
-                tag: 'Istituto Tecnico • AI Integrata',
-                desc: 'Un percorso all\'avanguardia focalizzato sullo sviluppo software, l\'intelligenza artificiale integrata nella didattica, le reti di calcolatori e la cybersecurity. Impara a programmare in C, Python e a gestire infrastrutture cloud avanzate.',
-                link: 'https://iisbadoni.edu.it/indirizzo-di-studio/informatica-telecomunicazioni/'
-            },
-            'logistica': {
-                title: 'Logistica',
-                tag: 'Istituto Tecnico',
-                desc: 'Specializzati nella gestione della catena di fornitura globale (supply chain), nell\'automazione dei magazzini 4.0, nella mobilità sostenibile e nei sistemi integrati di trasporto intermodale.'
-                // Nessun link per logistica
-            },
-            'meccanica': {
-                title: 'Meccanica e Meccatronica',
-                tag: 'Istituto Tecnico',
-                desc: 'Unione perfetta tra progettazione meccanica 3D CAD/CAM, robotica industriale, automazione e studio dei materiali innovativi. Per chi vuole dare forma concreta alla tecnologia.',
-                link: 'https://iisbadoni.edu.it/indirizzo-di-studio/meccanica-meccatronica-energia/'
-            },
-            'elettronica': {
-                title: 'Elettronica ed Elettrotecnica',
-                tag: 'Istituto Tecnico',
-                desc: 'Studio dei microcontrollori, dei sistemi embedded, dell\'IoT (Internet of Things) e degli impianti tecnologici avanzati per la transizione energetica e l\'automazione intelligente.',
-                link: 'https://iisbadoni.edu.it/indirizzo-di-studio/elettronica-elettrotecnica-automazione/'
-            },
-            'liceo': {
-                title: 'Liceo Scientifico - Opzione Scienze Applicate',
-                tag: 'Liceo Scientifico',
-                desc: 'La rigorosa preparazione scientifica del liceo unita all\'informatica laboratoriale avanzata (senza lo studio del latino). Matematica, Fisica, Scienze e Informatica al servizio delle future facoltà universitarie STEM.',
-                link: 'https://iisbadoni.edu.it/indirizzo-di-studio/liceo-scientifico-scienze-applicate/'
-            }
-        };
+// Funzione per aprire la finestra modale dei dettagli
+function mostraDettaglio(id) {
+    if (dettagliIndirizzi[id]) {
+        document.getElementById('modal-titolo').innerText = dettagliIndirizzi[id].titolo;
+        document.getElementById('modal-testo').innerText = dettagliIndirizzi[id].testo;
+        document.getElementById('modal-dettaglio').classList.remove('hidden');
+    }
+}
 
-        function openModal(id) {
-            const course = courseDetails[id];
-            if (!course) return;
-            
-            const content = `
-                <span class="text-xs font-bold uppercase tracking-wider text-badoni-primary bg-sky-100 px-3 py-1 rounded-full">${course.tag}</span>
-                <h3 class="text-2xl font-bold text-badoni-primary mt-2">${course.title}</h3>
-                <p class="text-slate-600 text-sm leading-relaxed mt-4 mb-2">${course.desc}</p>
-                
-                ${course.link ? `
-                <a href="${course.link}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center mt-2 text-sm font-bold text-[#0066CC] hover:text-badoni-primary transition-colors">
-                    <i class="fa-solid fa-arrow-up-right-from-square mr-2"></i> Vai ai dettagli e quadro orario sul sito
-                </a>` : ''}
+// Funzione per chiudere la finestra modale dei dettagli
+function chiudiDettaglio() {
+    document.getElementById('modal-dettaglio').classList.add('hidden');
+}
 
-                <div class="mt-6 pt-4 border-t border-slate-100 flex justify-end">
-                    <button onclick="closeModal()" class="px-5 py-2 bg-badoni-primary text-white rounded-xl font-semibold text-sm hover:bg-opacity-90 transition-all">Chiudi</button>
-                </div>
-            `;
-            document.getElementById('modal-content').innerHTML = content;
-            document.getElementById('courseModal').classList.remove('hidden');
-        }
 
-        function closeModal() {
-            document.getElementById('courseModal').classList.add('hidden');
-        }
+// ==========================================
+// 2. INVIO RISULTATI QUIZ A GOOGLE FOGLI
+// ==========================================
+function salvaRisultatoSuFogli(punteggioQuiz, indirizzoSuggerito) {
+    // Sostituisci la stringa sottostante con l'URL dell'App Web ottenuto da Apps Script
+    const scriptURL = 'INCOLLA_QUI_IL_TUO_URL_APPS_SCRIPT'; 
+    
+    const datiQuiz = {
+        punteggio: punteggioQuiz,
+        risultato: indirizzoSuggerito
+    };
 
-        let quizScores = { 'info': 0, 'meccanica': 0, 'elettronica': 0, 'logistica': 0, 'liceo': 0 };
+    fetch(scriptURL, {
+        method: 'POST',
+        mode: 'no-cors', // Evita i blocchi CORS del browser verso Google Apps Script
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datiQuiz)
+    })
+    .then(() => {
+        console.log("Risposta inviata con successo a Google Fogli.");
+    })
+    .catch((error) => {
+        console.error("Errore durante l'invio dei dati:", error);
+    });
+}
+</script>
 
-        function answerQuestion(step, category) {
-            quizScores[category]++;
-            document.getElementById('quiz-step-' + step).classList.add('hidden');
-            
-            let nextStep = step + 1;
-            if (nextStep <= 3) {
-                document.getElementById('quiz-step-' + nextStep).classList.remove('hidden');
-            } else {
-                showResult();
-            }
-        }
-
-        function showResult() {
-            let maxScore = -1;
-            let winner = 'info';
-            
-            for (let cat in quizScores) {
-                if (quizScores[cat] > maxScore) {
-                    maxScore = quizScores[cat];
-                    winner = cat;
-                }
-            }
-
-            document.getElementById('quiz-result').classList.remove('hidden');
-
-            const titles = {
-                'info': 'Informatica & Telecomunicazioni',
-                'meccanica': 'Meccanica & Meccatronica',
-                'elettronica': 'Elettronica ed Elettrotecnica',
-                'logistica': 'Logistica',
-                'liceo': 'Liceo Scientifico Scienze Applicate'
-            };
-
-            const descs = {
-                'info': 'Hai un\'inclinazione naturale per la logica, la programmazione e il mondo digitale. L\'indirizzo Informatica fa al caso tuo!',
-                'meccanica': 'Ti affascina la tecnologia applicata alla materia e alla robotica. Meccanica e Meccatronica è la tua strada.',
-                'elettronica': 'Circuiti e sistemi domotici/IoT sono la tua passione. Elettronica ed Elettrotecnica è il percorso perfetto per te!',
-                'logistica': 'Hai spiccate capacità organizzative e di gestione dei flussi. Il percorso Logistica valorizzerà il tuo talento.',
-                'liceo': 'Hai una mente analitica e vuoi una solida base scientifica e teorica per affrontare qualsiasi facoltà universitaria.'
-            };
-
-            document.getElementById('result-title').innerText = "Consigliato: " + titles[winner];
-            document.getElementById('result-desc').innerText = descs[winner];
-        }
-
-        function resetQuiz() {
-            quizScores = { 'info': 0, 'meccanica': 0, 'elettronica': 0, 'logistica': 0, 'liceo': 0 };
-            document.getElementById('quiz-result').classList.add('hidden');
-            document.getElementById('quiz-step-1').classList.remove('hidden');
-        }
-    </script>
 
 </body></html>
