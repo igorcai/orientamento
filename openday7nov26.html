@@ -147,7 +147,10 @@
     <img src="pianteopenday.jpg" alt="Piantina Ingrandita" class="w-full max-h-[85vh] object-contain rounded-lg shadow-2xl" onerror="this.src='https://via.placeholder.com/600x400?text=Anteprima+Piantina'" onclick="event.stopPropagation()">
   </div>
 
-  <script>
+<script>
+    // Incolla qui l'URL della Web App di Apps Script (deve terminare con /exec)
+    const SCRIPT_URL = "INCOLLA_QUI_URL_DELLA_WEB_APP";
+
     const scores = { info: 0, mec: 0, ele: 0, liceo: 0, log: 0 };
 
     function answer(step, key) {
@@ -184,10 +187,10 @@
       icon.className = `fa-solid ${resultsData[best].icon}`;
       resContainer.classList.remove('hidden');
 
-      // Invio tramite FORM invisibile
-      document.getElementById('field_quiz').value = resultsData[best].name;
-      document.getElementById('field_feedback').value = ""; // Svuota l'altro campo
-      document.getElementById('gform').submit();
+      // Invio dato del quiz a Google Fogli
+      if (SCRIPT_URL && SCRIPT_URL !== "INCOLLA_QUI_URL_DELLA_WEB_APP") {
+        fetch(SCRIPT_URL + "?quiz=" + encodeURIComponent(resultsData[best].name), { mode: 'no-cors' });
+      }
     }
 
     function sendFeedback(type) {
@@ -200,10 +203,10 @@
         down: "👎 Pollice Giù"
       };
 
-      // Invio tramite FORM invisibile
-      document.getElementById('field_quiz').value = ""; // Svuota l'altro campo
-      document.getElementById('field_feedback').value = emojiMap[type];
-      document.getElementById('gform').submit();
+      // Invio feedback a Google Fogli
+      if (SCRIPT_URL && SCRIPT_URL !== "INCOLLA_QUI_URL_DELLA_WEB_APP") {
+        fetch(SCRIPT_URL + "?feedback=" + encodeURIComponent(emojiMap[type]), { mode: 'no-cors' });
+      }
     }
 
     function resetQuiz() {
