@@ -425,7 +425,7 @@
             </div>
         </div>
     </footer>
-    <!-- JAVASCRIPT PER INTERATTIVITÀ -->
+  <!-- JAVASCRIPT PER INTERATTIVITÀ E MODALI -->
     <script>
         const courseDetails = {
             'info': {
@@ -438,7 +438,6 @@
                 title: 'Logistica',
                 tag: 'Istituto Tecnico',
                 desc: 'Specializzati nella gestione della catena di fornitura globale (supply chain), nell\'automazione dei magazzini 4.0, nella mobilità sostenibile e nei sistemi integrati di trasporto intermodale.'
-                // Nessun link per logistica
             },
             'meccanica': {
                 title: 'Meccanica e Meccatronica',
@@ -500,7 +499,7 @@
             }
         }
 
-       function showResult() {
+        function showResult() {
             let maxScore = -1;
             let winner = 'info';
             
@@ -532,8 +531,9 @@
             document.getElementById('result-title').innerText = "Consigliato: " + titles[winner];
             document.getElementById('result-desc').innerText = descs[winner];
 
-            // --- INIZIO CODICE INVIO A GOOGLE FOGLI ---
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbwsGgP5f3dQr0JW6482y4sJmB6qSBk22YCfGFgF3bccM3xZQaL0FY66paO9EG1gqsIHIw/exec';
+            // --- INVIA DATI A GOOGLE FOGLI ---
+            // Sostituisci questo URL con il tuo! Assicurati di non cancellare le virgolette ' all'inizio e alla fine
+            const scriptURL = 'INCOLLA_QUI_IL_TUO_URL_APP_SCRIPT';
 
             fetch(scriptURL, {
                 method: 'POST',
@@ -541,43 +541,20 @@
                     punteggio: maxScore,
                     risultato: titles[winner]
                 }),
-                // ATTENZIONE: Usiamo text/plain per aggirare in modo pulito 
-                // i blocchi di sicurezza CORS standard di Google Apps Script
                 headers: {
                     'Content-Type': 'text/plain;charset=utf-8',
                 }
             })
             .then(response => console.log('Dati del quiz registrati su Fogli con successo.'))
             .catch(error => console.error('Errore di comunicazione con Google Fogli:', error));
-            // --- FINE CODICE INVIO ---
+            // --- FINE INVIO ---
 
-            // Codice Google Analytics (se lo hai inserito)
+            // Codice Google Analytics (opzionale)
             if (typeof gtag === 'function') {
                 gtag('event', 'completamento_quiz', {
                     'indirizzo_suggerito': winner
                 });
             }
-        }
-            document.getElementById('quiz-result').classList.remove('hidden');
-
-            const titles = {
-                'info': 'Informatica & Telecomunicazioni',
-                'meccanica': 'Meccanica & Meccatronica',
-                'elettronica': 'Elettronica ed Elettrotecnica',
-                'logistica': 'Logistica',
-                'liceo': 'Liceo Scientifico Scienze Applicate'
-            };
-
-            const descs = {
-                'info': 'Hai un\'inclinazione naturale per la logica, la programmazione e il mondo digitale. L\'indirizzo Informatica fa al caso tuo!',
-                'meccanica': 'Ti affascina la tecnologia applicata alla materia e alla robotica. Meccanica e Meccatronica è la tua strada.',
-                'elettronica': 'Circuiti e sistemi domotici/IoT sono la tua passione. Elettronica ed Elettrotecnica è il percorso perfetto per te!',
-                'logistica': 'Hai spiccate capacità organizzative e di gestione dei flussi. Il percorso Logistica valorizzerà il tuo talento.',
-                'liceo': 'Hai una mente analitica e vuoi una solida base scientifica e teorica per affrontare qualsiasi facoltà universitaria.'
-            };
-
-            document.getElementById('result-title').innerText = "Consigliato: " + titles[winner];
-            document.getElementById('result-desc').innerText = descs[winner];
         }
 
         function resetQuiz() {
